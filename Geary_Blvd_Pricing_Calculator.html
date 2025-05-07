@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geary Blvd Project Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+    }
+    label, select, input {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>Geary Blvd Pricing Calculator</h2>
+
+  <label for="type">Installation Type</label>
+  <select id="type">
+    <option value="window">Window</option>
+    <option value="tree">Tree</option>
+  </select>
+
+  <label for="lighting">Lighting Footage (ft)</label>
+  <input type="number" id="lighting" min="0" placeholder="Enter feet of lighting" />
+
+  <label for="wire">Extension Wire Footage (ft)</label>
+  <input type="number" id="wire" min="0" placeholder="Enter feet of wire" />
+
+  <button onclick="calculate()">Calculate Total</button>
+
+  <div class="result" id="output"></div>
+
+  <script>
+    function calculate() {
+      const type = document.getElementById("type").value;
+      const lighting = parseFloat(document.getElementById("lighting").value) || 0;
+      const wire = parseFloat(document.getElementById("wire").value) || 0;
+
+      const baseCharge = 250;
+      const wireCostPerFoot = 0.99;
+
+      let costPerFoot;
+      if (type === "window") {
+        costPerFoot = 7.41;
+      } else if (type === "tree") {
+        costPerFoot = 26.79;
+      }
+
+      const lightingCost = lighting * costPerFoot;
+      const wireCost = wire * wireCostPerFoot;
+      const total = baseCharge + lightingCost + wireCost;
+
+      document.getElementById("output").innerHTML = `
+        Base Charge: $${baseCharge.toFixed(2)}<br>
+        Lighting Cost: $${lightingCost.toFixed(2)}<br>
+        Extension Wire Cost: $${wireCost.toFixed(2)}<br>
+        <strong>Total: $${total.toFixed(2)}</strong>
+      `;
+    }
+  </script>
+</body>
+</html>
